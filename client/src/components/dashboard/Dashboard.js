@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
+import HomeResults from './HomeResults';
 
 const Dashboard = ({
   getCurrentProfile,
@@ -14,6 +15,7 @@ const Dashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -25,6 +27,11 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <h1>Team Name: {profile.teamName}</h1>
+          <p>Race: {profile.race}</p>
+          <p>Team value: </p>
+          <p>Treasury: </p>
+          <HomeResults result={profile.results} />
         </Fragment>
       ) : (
         <Fragment>

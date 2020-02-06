@@ -10,6 +10,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './components/profile-form/CreateProfile';
 import EditProfile from './components/profile-form/EditProfile';
+import AddResult from './components/profile-form/AddResult';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -48,6 +49,7 @@ const App = () => {
                 path='/edit-profile'
                 component={EditProfile}
               />
+              <PrivateRoute exact path='/add-result' component={AddResult} />
             </Switch>
           </section>
         </Fragment>

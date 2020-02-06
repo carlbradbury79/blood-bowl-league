@@ -15,9 +15,40 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  totalGames: {
+  teamValue: {
     type: Number
-  }
+  },
+  teamTresury: {
+    type: Number
+  },
+  teamTotalTd: {
+    type: Number
+  },
+  teamTotalCas: {
+    type: Number
+  },
+  results: [
+    {
+      homeTeamName: {
+        type: String
+      },
+      homeTeamScore: {
+        type: Number
+      },
+      homeTeamCas: {
+        type: Number
+      },
+      awayTeamName: {
+        type: String
+      },
+      awayTeamScore: {
+        type: Number
+      },
+      awayTeamCas: {
+        type: Number
+      }
+    }
+  ]
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
