@@ -1,12 +1,24 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addResult } from '../../actions/profile';
+import { getCurrentProfile } from '../../actions/profile';
+import Spinner from '../layout/Spinner';
 
-const AddResult = ({ addResult, history }) => {
+const AddResult = ({
+  addResult,
+  history,
+  getCurrentProfile,
+  auth: { user },
+  profile: { profile, loading }
+}) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   const [formData, setFormData] = useState({
-    homeTeamName: '',
+    // homeTeamName: '',
     homeTeamScore: '',
     homeTeamCas: '',
     awayTeamName: '',
@@ -15,7 +27,7 @@ const AddResult = ({ addResult, history }) => {
   });
 
   const {
-    homeTeamName,
+    // homeTeamName,
     homeTeamScore,
     homeTeamCas,
     awayTeamName,
@@ -24,11 +36,17 @@ const AddResult = ({ addResult, history }) => {
   } = formData;
 
   const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+      homeTeamName: profile.teamName
+    });
 
-  return (
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
-      <h1 class='large text-primary'>Add A Result</h1>
+      <h1 className='large text-primary'>Add A Result</h1>
       <p className='lead'>
         <i className='fas fa-code-branch'></i> Add all details below
       </p>
@@ -37,17 +55,20 @@ const AddResult = ({ addResult, history }) => {
         className='form'
         onSubmit={e => {
           e.preventDefault();
+
           addResult(formData, history);
         }}
       >
         <div className='form-group'>
           <input
             type='text'
-            placeholder='* Your team name'
-            name='homeTeamName'
-            value={homeTeamName}
-            onChange={e => onChange(e)}
-            required
+            // placeholder='* Your team name'
+            // name='homeTeamName'
+            // value={profile.teamName}
+            readOnly
+            defaultValue={profile.teamName}
+            // onChange={e => onChange(e)}
+            // required
           />
         </div>
         <div className='form-group'>
@@ -111,7 +132,17 @@ const AddResult = ({ addResult, history }) => {
 };
 
 AddResult.propTypes = {
-  addResult: PropTypes.func.isRequired
+  addResult: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { addResult })(AddResult);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  profile: state.profile
+});
+
+export default connect(mapStateToProps, { addResult, getCurrentProfile })(
+  AddResult
+);

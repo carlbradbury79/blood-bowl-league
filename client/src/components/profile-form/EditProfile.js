@@ -22,7 +22,7 @@ const EditProfile = ({
       race: loading || !profile.race ? '' : profile.race,
       teamName: loading || !profile.teamName ? '' : profile.teamName
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile, profile.race, profile.teamName]);
 
   const { teamName, race } = formData;
 
