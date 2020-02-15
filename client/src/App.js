@@ -12,6 +12,7 @@ import CreateProfile from './components/profile-form/CreateProfile';
 import EditProfile from './components/profile-form/EditProfile';
 import AddResult from './components/profile-form/AddResult';
 import LeagueTable from './components/league/LeagueTable';
+import Profiles from './components/profiles/Profiles';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -40,6 +41,7 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/leaguetable' component={LeagueTable} />
+              <Route exact path='/profiles' component={Profiles} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute
                 exact

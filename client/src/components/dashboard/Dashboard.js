@@ -14,12 +14,14 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
+    console.log('dashboard', profile);
   }, [getCurrentProfile]);
 
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
+      {console.log('dash jsx', profile)}
       <h1 className='large text-primary'>Team Dashboard</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Welcome {user && user.name}
@@ -29,8 +31,10 @@ const Dashboard = ({
           <DashboardActions />
           <h1>Team Name: {profile.teamName}</h1>
           <p>Race: {profile.race}</p>
-          <p>Team value: </p>
-          <p>Treasury: </p>
+          <p>Team value: {profile.teamValue ? profile.teamValue : 'Not set'}</p>
+          <p>
+            Treasury: {profile.teamTreasury ? profile.teamTreasury : 'Not set'}
+          </p>
           <HomeResults result={profile.results} />
         </Fragment>
       ) : (

@@ -4,21 +4,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addResult } from '../../actions/profile';
 import { getCurrentProfile } from '../../actions/profile';
+import { getProfiles } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
+import AddResultAwayTeam from './AddResultAwayTeam';
 
 const AddResult = ({
   addResult,
   history,
   getCurrentProfile,
   auth: { user },
-  profile: { profile, loading }
+  getProfiles,
+  profile: { profile, profiles, loading }
 }) => {
   useEffect(() => {
     getCurrentProfile();
+    getProfiles();
+    console.log('profiles3', profiles);
+    console.log('profile', profile);
+    console.log('formData', formData);
   }, [getCurrentProfile]);
 
   const [formData, setFormData] = useState({
-    // homeTeamName: '',
+    homeTeamName: '',
     homeTeamScore: '',
     homeTeamCas: '',
     awayTeamName: '',
@@ -27,7 +34,7 @@ const AddResult = ({
   });
 
   const {
-    // homeTeamName,
+    homeTeamName,
     homeTeamScore,
     homeTeamCas,
     awayTeamName,
@@ -35,13 +42,21 @@ const AddResult = ({
     awayTeamCas
   } = formData;
 
-  const onChange = e =>
+  const onChange = e => {
+    console.log(e.currentTarget);
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
       homeTeamName: profile.teamName
     });
+    // console.log('profiles3', profiles);
+    // console.log('profile', profile);
+    console.log('formData', formData);
+  };
 
+  console.log('profiles1', profiles);
+
+  // If page hasn't loaded profile info
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -59,18 +74,18 @@ const AddResult = ({
           addResult(formData, history);
         }}
       >
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <input
             type='text'
             // placeholder='* Your team name'
             // name='homeTeamName'
             // value={profile.teamName}
             readOnly
-            defaultValue={profile.teamName}
+            // defaultValue={profile.teamName}
             // onChange={e => onChange(e)}
             // required
           />
-        </div>
+        </div> */}
         <div className='form-group'>
           <input
             type='text'
@@ -92,6 +107,24 @@ const AddResult = ({
           />
         </div>
         <div className='form-group'>
+          <select
+            name='awayTeamName'
+            value={awayTeamName}
+            onChange={e => onChange(e)}
+          >
+            <option value=''></option>
+            {profiles.map(profile =>
+              profile.teamName === homeTeamName ? null : (
+                <option value={profile.teamName}>{profile.teamName}</option>
+              )
+            )}
+            {/* <option value='grapefruit'>Grapefruit</option>
+          <option value='lime'>Lime</option>
+          <option value='coconut'>Coconut</option>
+          <option value='Not here'>Not here</option> */}
+          </select>
+        </div>
+        {/* <div className='form-group'>
           <input
             type='text'
             placeholder='* Away team name'
@@ -100,7 +133,7 @@ const AddResult = ({
             onChange={e => onChange(e)}
             required
           />
-        </div>
+        </div> */}
         <div className='form-group'>
           <input
             type='text'
@@ -135,14 +168,18 @@ AddResult.propTypes = {
   addResult: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getProfiles: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
+  profiles: state.profiles
 });
 
-export default connect(mapStateToProps, { addResult, getCurrentProfile })(
-  AddResult
-);
+export default connect(mapStateToProps, {
+  addResult,
+  getCurrentProfile,
+  getProfiles
+})(AddResult);

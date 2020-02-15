@@ -7,7 +7,7 @@ import { getProfiles } from '../../actions/profile';
 const LeagueTable = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]);
 
   const league = [];
 
@@ -20,8 +20,9 @@ const LeagueTable = ({ getProfiles, profile: { profiles, loading } }) => {
     league.push(team);
   });
 
-  console.log(league);
+  console.log('initial league', league);
 
+  // Get unregistered teams
   profiles.map(profile => {
     let newAwayLeague = profile.results.reduce((accumulator, currentValue) => {
       if (accumulator.indexOf(currentValue.awayTeamName) === -1) {
@@ -37,6 +38,9 @@ const LeagueTable = ({ getProfiles, profile: { profiles, loading } }) => {
 
     console.log('nAL', newAwayLeague);
   });
+
+  console.log('profiles', profiles);
+
   let finalLeague = [];
   let sortedLeague = league.reduce(function(accumulator, currentValue) {
     if (accumulator.indexOf(currentValue.teamName) === -1) {

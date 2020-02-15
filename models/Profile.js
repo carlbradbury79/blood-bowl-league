@@ -18,7 +18,7 @@ const ProfileSchema = new mongoose.Schema({
   teamValue: {
     type: Number
   },
-  teamTresury: {
+  teamTreasury: {
     type: Number
   },
   teamTotalTd: {

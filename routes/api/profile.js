@@ -48,14 +48,17 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { race, teamName } = req.body;
+    const { race, teamName, teamValue, teamTreasury } = req.body;
 
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
     // Check fields exist
+    console.log('api', race, teamName, teamValue, teamTreasury);
     if (race) profileFields.race = race;
     if (teamName) profileFields.teamName = teamName;
+    if (teamValue) profileFields.teamValue = teamValue;
+    if (teamTreasury) profileFields.teamTreasury = teamTreasury;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });

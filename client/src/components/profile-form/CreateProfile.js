@@ -7,10 +7,12 @@ import { createProfile } from '../../actions/profile';
 const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
     teamName: '',
-    race: ''
+    race: '',
+    teamValue: '',
+    teamTreasury: ''
   });
 
-  const { teamName, race } = formData;
+  const { teamName, race, teamValue, teamTreasury } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,6 +49,26 @@ const CreateProfile = ({ createProfile, history }) => {
             onChange={e => onChange(e)}
           />
           <small className='form-text'>Team Name</small>
+        </div>
+        <div className='form-group'>
+          <input
+            type='text'
+            placeholder='Team Value'
+            name='teamValue'
+            value={teamValue}
+            onChange={e => onChange(e)}
+          />
+          <small className='form-text'>Team Value</small>
+        </div>
+        <div className='form-group'>
+          <input
+            type='text'
+            placeholder='Team Treasury'
+            name='teamTreasury'
+            value={teamTreasury}
+            onChange={e => onChange(e)}
+          />
+          <small className='form-text'>Team Treasury</small>
         </div>
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>
